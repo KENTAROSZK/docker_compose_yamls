@@ -1,0 +1,28 @@
+# DBを使うためには、ユーザ名やパスワードの設定が必要である.
+
+# MariaDBの主な環境変数は
+# - MARIADB_ROOT_PASSWORD : ルートユーザのパスワード
+# - MARIADB_DATABASE : データベース名
+# - MARIADB_USER : データベースのユーザ名
+# - MARIADB_PASSWORD : データベースのパスワード
+
+
+services:
+  mariadb:
+    image: mariadb:10.7
+    container_name: mariadb-container
+    environment:
+      MARIADB_ROOT_PASSWORD: rooptpassword
+      MARIADB_DATABASE: testdb
+      MARIADB_USER: testuser
+      MARIADB_PASSWORD: testpass
+    volumes:
+      - db-data:/var/lib/mysql
+
+# 通常はコンテナを削除した時に、コンテナのデータも一緒に削除されてしまう.
+# それを避けるために、ボリュームの永続化をする.
+# 永続化したいディレクトリを以下のvolumesで定義しておく.
+# 定義する時は、ホスト側（ローカル側）のPCのディレクトリを指定しておく.
+volumes:
+  db-data:
+
