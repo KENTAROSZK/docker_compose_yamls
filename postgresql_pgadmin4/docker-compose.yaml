@@ -1,0 +1,33 @@
+# DBを使うためには、ユーザ名やパスワードの設定が必要である.
+
+# PostgreSQLの主な環境変数は
+# - POSTGRES_DB : データベース名
+# - POSTGRES_USER : データベースのユーザ名
+# - POSTGRES_PASSWORD : データベースのパスワード
+
+
+services:
+  db:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  pgadmin4:
+    image: dpage/pgadmin4:8.13
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com # 【実際に自分が使用できるメアド】
+      PGADMIN_DEFAULT_PASSWORD: pass
+    ports:
+      - "8080:80" # ブラウザで「http://localhost:8080/」
+    volumes:
+      - pgadmin4-data:/var/lib/pgadmin
+
+volumes:
+  db-data:
+  pgadmin4-data:

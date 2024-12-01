@@ -1,0 +1,69 @@
+# DBを使うためには、ユーザ名やパスワードの設定が必要である.
+
+# MariaDBの主な環境変数は
+# - MARIADB_ROOT_PASSWORD : ルートユーザのパスワード
+# - MARIADB_DATABASE : データベース名
+# - MARIADB_USER : データベースのユーザ名
+# - MARIADB_PASSWORD : データベースのパスワード
+
+
+services:
+  db:
+    image: mariadb:10.7
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: tetsdb
+      MARIADB_USER: testuser
+      MARIADB_PASSWORD: testpass
+    volumes:
+      - db-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db # データベースのホスト名。MariaDBのコンテナの名前を設定する.
+      PMA_USER: testuser # データベースのユーザ名。上で設定したMariaDBのユーザ名を設定する.
+      PMA_PASSWORD: testpass # データベースのパス。上で設定したMariaDBのパスワードを設定する.
+    ports:
+      - "8080:80" # ブラウザで「http://localhost:8080/」
+    volumes:
+      - phpmyadmin-data:/sessions
+
+volumes:
+  db-data:
+  phpmyadmin-data:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
